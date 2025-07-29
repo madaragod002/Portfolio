@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portafolio - Desarrollador Web - AlieckDev</title>
-    <!-- Incluye Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fuente Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- AOS (Animate On Scroll) CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* **Ajustes adicionales para html y body para asegurar el 100% del viewport** */
+        html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden; /* Asegura que nada en HTML provoque scroll horizontal */
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d0d0d; /* Fondo muy oscuro */
             color: #e0e0e0; /* Texto claro */
             overflow-x: hidden; /* Evita el scroll horizontal */
+            width: 100%; /* Asegura que el body no se desborde */
+            min-width: 320px; /* Un valor mínimo razonable para móviles, ajusta si es necesario */
+            margin: 0;
+            padding: 0;
         }
 
         /* Colores CAROS */
@@ -71,21 +77,20 @@
 
         /* Estilos para el popup flotante */
         .popup-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.7);
-          /* display: flex;  ELIMINA ESTA LÍNEA */
-          display: none; /* AÑADE ESTA LÍNEA - Inicialmente oculto del layout */
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-          opacity: 0;
-          visibility: hidden;
-          transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; /* **Sigue siendo clave que empiece oculto** */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
 
         .popup-overlay.show {
             opacity: 1;
@@ -184,14 +189,19 @@
         .message-box button:hover {
             background-color: #b8860b;
         }
+
+        /* **DEBUGGING TEMPORAL** - Descomenta esta sección si el problema persiste para encontrar el elemento que desborda */
+        /*
+        * {
+            outline: 1px solid rgba(255, 0, 0, 0.5) !important;
+        }
+        */
     </style>
 </head>
 <body class="bg-gray-950 text-gray-100">
 
-    <!-- Botón de scroll-to-top -->
     <button id="scrollToTopBtn" title="Ir arriba">↑</button>
 
-    <!-- Barra de Navegación -->
     <nav class="fixed w-full z-50 bg-gray-950 bg-opacity-90 shadow-lg py-4 px-6 md:px-12 animate-fade-in">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl md:text-3xl font-extrabold accent-gold hover:text-white transition duration-300 transform hover:scale-105">Portafolio AlieckDev</a>
@@ -202,12 +212,10 @@
                 <a href="#proyectos" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Proyectos</a>
                 <a href="#contacto" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Contacto</a>
             </div>
-            <!-- Menú hamburguesa para móviles -->
             <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
-        <!-- Menú móvil desplegable -->
         <div id="mobile-menu" class="md:hidden hidden mt-4 space-y-2 text-center">
             <a href="#inicio" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Inicio</a>
             <a href="#sobre-mi" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Sobre Mí</a>
@@ -217,9 +225,7 @@
         </div>
     </nav>
 
-    <!-- Sección de Inicio (Hero) -->
     <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden bg-gradient-to-br from-gray-900 to-black">
-        <!-- Nuevo fondo abstracto más lujoso -->
         <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://placehold.co/1920x1080/1a1a1a/d4af37?text=1');"></div>
         <div class="relative z-10 p-8 max-w-4xl mx-auto">
             <p class="text-xl md:text-2xl text-gray-300 mb-4 animate-fade-in animate-delay-1 font-semibold" data-aos="fade-up" data-aos-easing="ease-out-cubic">Hola, soy</p>
@@ -233,7 +239,6 @@
         </div>
     </section>
 
-    <!-- Sección Sobre Mí -->
     <section id="sobre-mi" class="py-20 px-6 md:px-12 bg-gray-900" data-aos="fade-up" data-aos-offset="100">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Sobre Mí</h2>
@@ -250,12 +255,10 @@
         </div>
     </section>
 
-    <!-- Sección Habilidades -->
     <section id="habilidades" class="py-20 px-6 md:px-12 bg-gray-950" data-aos="fade-up" data-aos-offset="100">
         <div class="container mx-auto max-w-5xl">
             <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Mis Habilidades</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Habilidad 1 -->
                 <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="100" data-aos-easing="ease-out-cubic">
                     <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-code mr-3"></i>Desarrollo Frontend</h3>
                     <ul class="list-disc list-inside text-gray-300 space-y-2">
@@ -265,7 +268,6 @@
                         <li><i class="fas fa-magic mr-2 text-purple-400"></i>Animaciones CSS y JS</li>
                     </ul>
                 </div>
-                <!-- Habilidad 2 -->
                 <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="200" data-aos-easing="ease-out-cubic">
                     <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-server mr-3"></i>Desarrollo Backend</h3>
                     <ul class="list-disc list-inside text-gray-300 space-y-2">
@@ -275,7 +277,6 @@
                         <li><i class="fas fa-exchange-alt mr-2 text-yellow-500"></i>APIs RESTful</li>
                     </ul>
                 </div>
-                <!-- Habilidad 3 -->
                 <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="300" data-aos-easing="ease-out-cubic">
                     <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-tools mr-3"></i>Herramientas y Otros</h3>
                     <ul class="list-disc list-inside text-gray-300 space-y-2">
@@ -289,12 +290,10 @@
         </div>
     </section>
 
-    <!-- Sección Proyectos -->
     <section id="proyectos" class="py-20 px-6 md:px-12 bg-gray-900" data-aos="fade-up" data-aos-offset="100">
         <div class="container mx-auto max-w-6xl">
             <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Mis Proyectos Recientes</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <!-- Proyecto 1 -->
                 <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="100" data-aos-easing="ease-out-cubic">
                     <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+1" alt="Proyecto 1" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -303,7 +302,6 @@
                         <a href="#" target="_blank" class="inline-block bg-accent-gold text-gray-900 font-medium py-2 px-5 rounded-full hover:bg-white transition duration-300">Ver Proyecto</a>
                     </div>
                 </div>
-                <!-- Proyecto 2 -->
                 <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-out-cubic">
                     <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+2" alt="Proyecto 2" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -312,7 +310,6 @@
                         <a href="#" target="_blank" class="inline-block bg-accent-gold text-gray-900 font-medium py-2 px-5 rounded-full hover:bg-white transition duration-300">Ver Proyecto</a>
                     </div>
                 </div>
-                <!-- Proyecto 3 -->
                 <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="300" data-aos-easing="ease-out-cubic">
                     <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+3" alt="Proyecto 3" class="w-full h-56 object-cover">
                     <div class="p-6">
@@ -325,7 +322,6 @@
         </div>
     </section>
 
-    <!-- Sección de Contacto -->
     <section id="contacto" class="py-20 px-6 md:px-12 bg-gray-950" data-aos="fade-up" data-aos-offset="100">
         <div class="container mx-auto max-w-xl">
             <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Contacto</h2>
@@ -340,7 +336,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-black py-8 text-center text-gray-400 text-sm margin: 10px">
         <div class="container mx-auto">
             <p>&copy; 2025 Alieck Dev. Todos los derechos reservados.</p>
@@ -352,7 +347,6 @@
         </div>
     </footer>
 
-    <!-- Popup Flotante -->
     <div id="floating-popup" class="popup-overlay">
         <div class="popup-content">
             <button class="close-popup" id="close-popup-btn">&times;</button>
@@ -370,13 +364,11 @@
         </div>
     </div>
 
-    <!-- Mensaje de confirmación personalizado (ya no se usa para el formulario, pero se mantiene por si se necesita) -->
     <div id="message-box" class="message-box">
         <p id="message-text"></p>
         <button id="message-box-ok">OK</button>
     </div>
-<div class="h-20"></div>
-    <!-- AOS JS -->
+    <div class="h-20"></div>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -419,49 +411,49 @@
             });
 
             // Lógica del Popup Flotante
-const openPopupBtn = document.getElementById('open-popup-btn');
-const closePopupBtn = document.getElementById('close-popup-btn');
-const floatingPopup = document.getElementById('floating-popup');
-const popupActionButton = document.getElementById('popup-action-btn');
+            const openPopupBtn = document.getElementById('open-popup-btn');
+            const closePopupBtn = document.getElementById('close-popup-btn');
+            const floatingPopup = document.getElementById('floating-popup');
+            const popupActionButton = document.getElementById('popup-action-btn');
 
-// Abrir popup
-openPopupBtn.addEventListener('click', () => {
-    floatingPopup.style.display = 'flex'; // Primero haz que sea parte del flujo de layout
-    requestAnimationFrame(() => { // Luego, en el siguiente frame de animación, añade la clase 'show'
-        floatingPopup.classList.add('show');
-    });
-});
+            // Abrir popup
+            openPopupBtn.addEventListener('click', () => {
+                floatingPopup.style.display = 'flex'; // Primero haz que sea parte del flujo de layout
+                requestAnimationFrame(() => { // Luego, en el siguiente frame de animación, añade la clase 'show'
+                    floatingPopup.classList.add('show');
+                });
+            });
 
-// Cerrar popup
-closePopupBtn.addEventListener('click', () => {
-    floatingPopup.classList.remove('show');
-    // Escucha el fin de la transición para ocultarlo completamente del layout
-    floatingPopup.addEventListener('transitionend', function handler() {
-        floatingPopup.style.display = 'none';
-        floatingPopup.removeEventListener('transitionend', handler); // Limpia el listener para evitar duplicados
-    }, { once: true }); // El { once: true } asegura que el listener se ejecute solo una vez
-});
+            // Cerrar popup
+            closePopupBtn.addEventListener('click', () => {
+                floatingPopup.classList.remove('show');
+                // Escucha el fin de la transición para ocultarlo completamente del layout
+                floatingPopup.addEventListener('transitionend', function handler() {
+                    floatingPopup.style.display = 'none';
+                    floatingPopup.removeEventListener('transitionend', handler); // Limpia el listener para evitar duplicados
+                }, { once: true }); // El { once: true } asegura que el listener se ejecute solo una vez
+            });
 
-// Cerrar popup al hacer clic fuera
-floatingPopup.addEventListener('click', (e) => {
-    if (e.target === floatingPopup) {
-        floatingPopup.classList.remove('show');
-        floatingPopup.addEventListener('transitionend', function handler() {
-            floatingPopup.style.display = 'none';
-            floatingPopup.removeEventListener('transitionend', handler);
-        }, { once: true });
-    }
-});
+            // Cerrar popup al hacer clic fuera
+            floatingPopup.addEventListener('click', (e) => {
+                if (e.target === floatingPopup) {
+                    floatingPopup.classList.remove('show');
+                    floatingPopup.addEventListener('transitionend', function handler() {
+                        floatingPopup.style.display = 'none';
+                        floatingPopup.removeEventListener('transitionend', handler);
+                    }, { once: true });
+                }
+            });
 
-// Acción del botón dentro del popup (ejemplo: redirigir o cerrar)
-popupActionButton.addEventListener('click', () => {
-    floatingPopup.classList.remove('show');
-    floatingPopup.addEventListener('transitionend', function handler() {
-        floatingPopup.style.display = 'none';
-        floatingPopup.removeEventListener('transitionend', handler);
-    }, { once: true });
-    // Opcional: window.location.href = '#servicios';
-});
+            // Acción del botón dentro del popup (ejemplo: redirigir o cerrar)
+            popupActionButton.addEventListener('click', () => {
+                floatingPopup.classList.remove('show');
+                floatingPopup.addEventListener('transitionend', function handler() {
+                    floatingPopup.style.display = 'none';
+                    floatingPopup.removeEventListener('transitionend', handler);
+                }, { once: true });
+                // Opcional: window.location.href = '#servicios';
+            });
 
             // Mostrar/Ocultar botón de scroll-to-top
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
