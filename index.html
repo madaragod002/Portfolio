@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio - Desarrollador Web - AlieckDev</title>
+    <!-- Incluye Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d; /* Fondo muy oscuro */
+            color: #e0e0e0; /* Texto claro */
+            overflow-x: hidden; /* Evita el scroll horizontal */
+        }
+
+        /* Colores CAROS */
+        .accent-gold { color: #d4af37; }
+        .bg-accent-gold { background-color: #d4af37; }
+        .border-accent-gold { border-color: #d4af37; }
+
+        .accent-silver { color: #c0c0c0; }
+        .bg-accent-silver { background-color: #c0c0c0; }
+        .border-accent-silver { border-color: #c0c0c0; }
+
+        /* Animaciones CSS personalizadas (para la carga inicial) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        /* Retrasos para animaciones en cascada */
+        .animate-delay-1 { animation-delay: 0.2s; }
+        .animate-delay-2 { animation-delay: 0.4s; }
+        .animate-delay-3 { animation-delay: 0.6s; }
+        .animate-delay-4 { animation-delay: 0.8s; }
+
+        /* Animación de "máquina de escribir" */
+        .typewriter h1 {
+            overflow: hidden; /* Oculta el texto que se desborda */
+            white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+            margin: 0 auto; /* Centra el texto */
+            letter-spacing: .15em; /* Espaciado entre letras */
+            animation:
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        /* La animación de "máquina de escribir" */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* La animación del cursor parpadeante */
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #d4af37; }
+        }
+
+        /* Estilos para el popup flotante */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background-color: #1a1a1a;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            max-width: 700px; /* Hacemos el popup más grande */
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .popup-overlay.show .popup-content {
+            transform: scale(1);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .close-popup:hover {
+            color: #d4af37;
+        }
+
+        /* Estilos para el botón de scroll-to-top */
+        #scrollToTopBtn {
+            display: none; /* Oculto por defecto */
+            position: fixed; /* Fijo en la pantalla */
+            bottom: 20px; /* 20px desde la parte inferior */
+            right: 20px; /* 20px desde la derecha */
+            z-index: 99; /* Asegura que esté por encima de otros elementos */
+            border: none; /* Sin borde */
+            outline: none; /* Sin contorno */
+            background-color: #d4af37; /* Color de fondo dorado */
+            color: white; /* Color de texto blanco */
+            cursor: pointer; /* Cursor de puntero */
+            padding: 15px; /* Relleno */
+            border-radius: 50%; /* Forma redonda */
+            font-size: 18px; /* Tamaño de fuente */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: #b8860b; /* Dorado más oscuro al pasar el ratón */
+            transform: translateY(-3px); /* Pequeño levantamiento */
+        }
+
+        /* Estilos para el mensaje de confirmación */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            text-align: center;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box button {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .message-box button:hover {
+            background-color: #b8860b;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100">
+
+    <!-- Botón de scroll-to-top -->
+    <button id="scrollToTopBtn" title="Ir arriba">↑</button>
+
+    <!-- Barra de Navegación -->
+    <nav class="fixed w-full z-50 bg-gray-950 bg-opacity-90 shadow-lg py-4 px-6 md:px-12 animate-fade-in">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl md:text-3xl font-extrabold accent-gold hover:text-white transition duration-300 transform hover:scale-105">Portafolio AlieckDev</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Inicio</a>
+                <a href="#sobre-mi" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Sobre Mí</a>
+                <a href="#habilidades" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Habilidades</a>
+                <a href="#proyectos" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Proyectos</a>
+                <a href="#contacto" class="text-gray-300 hover:text-white transition duration-300 hover:scale-105 font-medium text-lg">Contacto</a>
+            </div>
+            <!-- Menú hamburguesa para móviles -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <!-- Menú móvil desplegable -->
+        <div id="mobile-menu" class="md:hidden hidden mt-4 space-y-2 text-center">
+            <a href="#inicio" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Inicio</a>
+            <a href="#sobre-mi" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Sobre Mí</a>
+            <a href="#habilidades" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Habilidades</a>
+            <a href="#proyectos" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Proyectos</a>
+            <a href="#contacto" class="block py-2 text-gray-300 hover:text-white transition duration-300 hover:bg-gray-800 rounded">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Sección de Inicio (Hero) -->
+    <section id="inicio" class="relative h-screen flex items-center justify-center text-center overflow-hidden bg-gradient-to-br from-gray-900 to-black">
+        <!-- Nuevo fondo abstracto más lujoso -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://placehold.co/1920x1080/1a1a1a/d4af37?text=1');"></div>
+        <div class="relative z-10 p-8 max-w-4xl mx-auto">
+            <p class="text-xl md:text-2xl text-gray-300 mb-4 animate-fade-in animate-delay-1 font-semibold" data-aos="fade-up" data-aos-easing="ease-out-cubic">Hola, soy</p>
+            <div class="typewriter" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-out-cubic">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-4 leading-tight border-r-4 border-accent-gold pr-2 drop-shadow-lg">AlieckDev</h1>
+            </div>
+            <p class="text-2xl md:text-4xl font-light accent-gold mb-8 animate-fade-in animate-delay-2 drop-shadow-md" data-aos="fade-up" data-aos-delay="400" data-aos-easing="ease-out-cubic">Desarrollador de Sitios Web con Pasión por la Innovación</p>
+            <button id="open-popup-btn" class="bg-accent-gold text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:scale-105 hover:bg-white transition duration-300 ease-in-out transform animate-fade-in animate-delay-3" data-aos="zoom-in" data-aos-delay="600" data-aos-easing="ease-out-back">
+                Explorar Servicios
+            </button>
+        </div>
+    </section>
+
+    <!-- Sección Sobre Mí -->
+    <section id="sobre-mi" class="py-20 px-6 md:px-12 bg-gray-900" data-aos="fade-up" data-aos-offset="100">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Sobre Mí</h2>
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/3 flex justify-center" data-aos="zoom-in" data-aos-delay="200" data-aos-easing="ease-out-back">
+                    <img src="https://mi_foto.png alt="Tu Foto de Perfil" class="rounded-full border-4 border-accent-gold shadow-xl transform hover:scale-105 transition duration-300 ease-in-out">
+                </div>
+                <div class="md:w-2/3 text-lg leading-relaxed text-gray-300" data-aos="fade-left" data-aos-delay="300" data-aos-easing="ease-out-sine">
+                    <p class="mb-4">Soy un desarrollador web, especializado en la creación de experiencias digitales impactantes y funcionales. Mi enfoque se centra en el diseño elegante, la interactividad fluida y la optimización del rendimiento para ofrecer soluciones web de alta calidad.</p>
+                    <p class="mb-4">Desde la concepción hasta la implementación, me dedico a transformar ideas en realidades digitales, utilizando las últimas tecnologías y las mejores prácticas de la industria. Me apasiona el aprendizaje continuo y la resolución de problemas complejos.</p>
+                    <p>Mi objetivo es construir sitios web que no solo se vean bien, sino que también impulsen el éxito de mis clientes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Habilidades -->
+    <section id="habilidades" class="py-20 px-6 md:px-12 bg-gray-950" data-aos="fade-up" data-aos-offset="100">
+        <div class="container mx-auto max-w-5xl">
+            <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Mis Habilidades</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Habilidad 1 -->
+                <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="100" data-aos-easing="ease-out-cubic">
+                    <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-code mr-3"></i>Desarrollo Frontend</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><i class="fab fa-html5 mr-2 text-orange-500"></i>HTML5, CSS3, JavaScript (ES6+)</li>
+                        <li><i class="fab fa-react mr-2 text-blue-400"></i>React.js, <i class="fab fa-vuejs mr-2 text-green-500"></i>Vue.js, <i class="fab fa-angular mr-2 text-red-600"></i>Angular</li>
+                        <li><i class="fab fa-css3-alt mr-2 text-blue-500"></i>Tailwind CSS, Bootstrap</li>
+                        <li><i class="fas fa-magic mr-2 text-purple-400"></i>Animaciones CSS y JS</li>
+                    </ul>
+                </div>
+                <!-- Habilidad 2 -->
+                <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="200" data-aos-easing="ease-out-cubic">
+                    <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-server mr-3"></i>Desarrollo Backend</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><i class="fab fa-node-js mr-2 text-green-600"></i>Node.js, Express.js</li>
+                        <li><i class="fab fa-python mr-2 text-blue-300"></i>Python (Django, Flask)</li>
+                        <li><i class="fas fa-database mr-2 text-gray-400"></i>Bases de Datos (MongoDB, PostgreSQL, MySQL)</li>
+                        <li><i class="fas fa-exchange-alt mr-2 text-yellow-500"></i>APIs RESTful</li>
+                    </ul>
+                </div>
+                <!-- Habilidad 3 -->
+                <div class="bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 ease-in-out transform hover:scale-105 border border-gray-700" data-aos="flip-up" data-aos-delay="300" data-aos-easing="ease-out-cubic">
+                    <h3 class="text-2xl font-semibold accent-gold mb-4 flex items-center"><i class="fas fa-tools mr-3"></i>Herramientas y Otros</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><i class="fab fa-git-alt mr-2 text-red-500"></i>Git, GitHub/GitLab</li>
+                        <li><i class="fas fa-cloud mr-2 text-blue-500"></i>Docker, Netlify, Vercel</li>
+                        <li><i class="fas fa-mobile-alt mr-2 text-gray-400"></i>Diseño Responsivo</li>
+                        <li><i class="fas fa-tachometer-alt mr-2 text-cyan-400"></i>Optimización de Rendimiento</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Proyectos -->
+    <section id="proyectos" class="py-20 px-6 md:px-12 bg-gray-900" data-aos="fade-up" data-aos-offset="100">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Mis Proyectos Recientes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Proyecto 1 -->
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="100" data-aos-easing="ease-out-cubic">
+                    <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+1" alt="Proyecto 1" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold accent-gold mb-3">Nombre del Proyecto 1</h3>
+                        <p class="text-gray-300 mb-4">Descripción breve del proyecto, tecnologías utilizadas y el impacto que tuvo.</p>
+                        <a href="#" target="_blank" class="inline-block bg-accent-gold text-gray-900 font-medium py-2 px-5 rounded-full hover:bg-white transition duration-300">Ver Proyecto</a>
+                    </div>
+                </div>
+                <!-- Proyecto 2 -->
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-out-cubic">
+                    <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+2" alt="Proyecto 2" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold accent-gold mb-3">Nombre del Proyecto 2</h3>
+                        <p class="text-gray-300 mb-4">Descripción breve del proyecto, tecnologías utilizadas y el impacto que tuvo.</p>
+                        <a href="#" target="_blank" class="inline-block bg-accent-gold text-gray-900 font-medium py-2 px-5 rounded-full hover:bg-white transition duration-300">Ver Proyecto</a>
+                    </div>
+                </div>
+                <!-- Proyecto 3 -->
+                <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700 transform hover:scale-105 transition duration-300 ease-in-out" data-aos="fade-up" data-aos-delay="300" data-aos-easing="ease-out-cubic">
+                    <img src="https://placehold.co/600x400/2a2a2a/d4af37?text=Proyecto+3" alt="Proyecto 3" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold accent-gold mb-3">Nombre del Proyecto 3</h3>
+                        <p class="text-gray-300 mb-4">Descripción breve del proyecto, tecnologías utilizadas y el impacto que tuvo.</p>
+                        <a href="#" target="_blank" class="inline-block bg-accent-gold text-gray-900 font-medium py-2 px-5 rounded-full hover:bg-white transition duration-300">Ver Proyecto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="py-20 px-6 md:px-12 bg-gray-950" data-aos="fade-up" data-aos-offset="100">
+        <div class="container mx-auto max-w-xl">
+            <h2 class="text-4xl font-bold text-center mb-12 accent-gold" data-aos="fade-down" data-aos-easing="ease-out-quad">Contacto</h2>
+            <div class="bg-gray-800 p-10 rounded-xl shadow-lg border border-gray-700 text-center" data-aos="zoom-in" data-aos-delay="100">
+                <p class="text-gray-300 mb-8 text-lg">¿Interesado en colaborar o tienes alguna pregunta? ¡Contáctame directamente por WhatsApp!</p>
+                <div class="flex justify-center" data-aos="zoom-in" data-aos-delay="200" data-aos-easing="ease-out-back">
+                    <a href="https://wa.me/5351891072?text=Hola%20Tu%20Nombre,%20me%20gustaría%20contactarte%20desde%20tu%20portafolio." target="_blank" class="bg-green-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:scale-105 hover:bg-green-600 transition duration-300 ease-in-out transform flex items-center justify-center text-xl">
+                        <i class="fab fa-whatsapp mr-3 text-2xl"></i> Contactar por WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 text-center text-gray-400 text-sm margin: 10px">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Alieck Dev. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-10">
+                <a href="#" class="hover:text-white transition duration-100" data-aos="fade-up" data-aos-delay="0" data-aos-easing="ease-out-cubic"><i class="fab fa-linkedin fa-2x"></i></a>
+                <a href="#" class="hover:text-white transition duration-100" data-aos="fade-up" data-aos-delay="0" data-aos-easing="ease-out-cubic"><i class="fab fa-github fa-2x"></i></a>
+                <a href="#" class="hover:text-white transition duration-100" data-aos="fade-up" data-aos-delay="0" data-aos-easing="ease-out-cubic"><i class="fab fa-twitter fa-2x"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup Flotante -->
+    <div id="floating-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="close-popup" id="close-popup-btn">&times;</button>
+            <h3 class="text-3xl md:text-4xl font-bold accent-gold mb-4 text-center" data-aos="fade-down" data-aos-easing="ease-out-quad">¡Bienvenido a mi Portafolio!</h3>
+            <p class="text-gray-300 mb-6 text-center text-lg" data-aos="fade-up" data-aos-delay="200" data-aos-easing="ease-out-sine">
+                Gracias por visitar mi espacio. Aquí encontrarás una muestra de mi trabajo y habilidades como desarrollador web.
+                Mi objetivo es crear soluciones digitales innovadoras y de alta calidad que superen tus expectativas.
+                Si tienes alguna pregunta o proyecto en mente, no dudes en contactarme.
+            </p>
+            <div class="flex justify-center" data-aos="zoom-in" data-aos-delay="400" data-aos-easing="ease-out-back">
+                <button class="bg-accent-gold text-gray-900 font-bold py-2 px-6 rounded-full hover:bg-white transition duration-300" id="popup-action-btn">
+                    Conocer Más
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje de confirmación personalizado (ya no se usa para el formulario, pero se mantiene por si se necesita) -->
+    <div id="message-box" class="message-box">
+        <p id="message-text"></p>
+        <button id="message-box-ok">OK</button>
+    </div>
+<div class="h-20"></div>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar AOS con configuraciones para animaciones complejas y reversibles
+            AOS.init({
+                duration: 1000, // Duración de las animaciones en milisegundos
+                once: false, // Las animaciones se repiten cada vez que se hace scroll (para el efecto de fade-in/out)
+                mirror: true, // Las animaciones se invierten al hacer scroll hacia arriba
+                offset: 120, // Offset (en px) desde la parte inferior de la ventana para activar la animación
+                easing: 'ease-in-out', // Easing por defecto para todas las animaciones
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('#mobile-menu a, nav div:nth-child(2) a'); // Selecciona enlaces de ambos menús
+
+            // Toggle del menú móvil
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Smooth scroll para todos los enlaces de navegación
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80, // Ajusta para la altura de la barra de navegación
+                            behavior: 'smooth'
+                        });
+                        // Cierra el menú móvil si está abierto
+                        if (!mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // Lógica del Popup Flotante
+            const openPopupBtn = document.getElementById('open-popup-btn');
+            const closePopupBtn = document.getElementById('close-popup-btn');
+            const floatingPopup = document.getElementById('floating-popup');
+            const popupActionButton = document.getElementById('popup-action-btn');
+
+            // Abrir popup
+            openPopupBtn.addEventListener('click', () => {
+                floatingPopup.classList.add('show');
+            });
+
+            // Cerrar popup
+            closePopupBtn.addEventListener('click', () => {
+                floatingPopup.classList.remove('show');
+            });
+
+            // Cerrar popup al hacer clic fuera
+            floatingPopup.addEventListener('click', (e) => {
+                if (e.target === floatingPopup) {
+                    floatingPopup.classList.remove('show');
+                }
+            });
+
+            // Acción del botón dentro del popup (ejemplo: redirigir o cerrar)
+            popupActionButton.addEventListener('click', () => {
+                // Aquí puedes añadir la lógica que desees, por ejemplo, redirigir a una sección
+                floatingPopup.classList.remove('show');
+                // Opcional: window.location.href = '#servicios';
+            });
+
+            // Mostrar/Ocultar botón de scroll-to-top
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+            window.onscroll = function() {
+                if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                    scrollToTopBtn.style.display = "block";
+                } else {
+                    scrollToTopBtn.style.display = "none";
+                }
+            };
+
+            // Función para scroll-to-top
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
