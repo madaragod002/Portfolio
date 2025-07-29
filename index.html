@@ -419,34 +419,49 @@
             });
 
             // Lógica del Popup Flotante
-            const openPopupBtn = document.getElementById('open-popup-btn');
-            const closePopupBtn = document.getElementById('close-popup-btn');
-            const floatingPopup = document.getElementById('floating-popup');
-            const popupActionButton = document.getElementById('popup-action-btn');
+const openPopupBtn = document.getElementById('open-popup-btn');
+const closePopupBtn = document.getElementById('close-popup-btn');
+const floatingPopup = document.getElementById('floating-popup');
+const popupActionButton = document.getElementById('popup-action-btn');
 
-            // Abrir popup
-            openPopupBtn.addEventListener('click', () => {
-                floatingPopup.classList.add('show');
-            });
+// Abrir popup
+openPopupBtn.addEventListener('click', () => {
+    floatingPopup.style.display = 'flex'; // Primero haz que sea parte del flujo de layout
+    requestAnimationFrame(() => { // Luego, en el siguiente frame de animación, añade la clase 'show'
+        floatingPopup.classList.add('show');
+    });
+});
 
-            // Cerrar popup
-            closePopupBtn.addEventListener('click', () => {
-                floatingPopup.classList.remove('show');
-            });
+// Cerrar popup
+closePopupBtn.addEventListener('click', () => {
+    floatingPopup.classList.remove('show');
+    // Escucha el fin de la transición para ocultarlo completamente del layout
+    floatingPopup.addEventListener('transitionend', function handler() {
+        floatingPopup.style.display = 'none';
+        floatingPopup.removeEventListener('transitionend', handler); // Limpia el listener para evitar duplicados
+    }, { once: true }); // El { once: true } asegura que el listener se ejecute solo una vez
+});
 
-            // Cerrar popup al hacer clic fuera
-            floatingPopup.addEventListener('click', (e) => {
-                if (e.target === floatingPopup) {
-                    floatingPopup.classList.remove('show');
-                }
-            });
+// Cerrar popup al hacer clic fuera
+floatingPopup.addEventListener('click', (e) => {
+    if (e.target === floatingPopup) {
+        floatingPopup.classList.remove('show');
+        floatingPopup.addEventListener('transitionend', function handler() {
+            floatingPopup.style.display = 'none';
+            floatingPopup.removeEventListener('transitionend', handler);
+        }, { once: true });
+    }
+});
 
-            // Acción del botón dentro del popup (ejemplo: redirigir o cerrar)
-            popupActionButton.addEventListener('click', () => {
-                // Aquí puedes añadir la lógica que desees, por ejemplo, redirigir a una sección
-                floatingPopup.classList.remove('show');
-                // Opcional: window.location.href = '#servicios';
-            });
+// Acción del botón dentro del popup (ejemplo: redirigir o cerrar)
+popupActionButton.addEventListener('click', () => {
+    floatingPopup.classList.remove('show');
+    floatingPopup.addEventListener('transitionend', function handler() {
+        floatingPopup.style.display = 'none';
+        floatingPopup.removeEventListener('transitionend', handler);
+    }, { once: true });
+    // Opcional: window.location.href = '#servicios';
+});
 
             // Mostrar/Ocultar botón de scroll-to-top
             const scrollToTopBtn = document.getElementById('scrollToTopBtn');
